@@ -11,9 +11,13 @@
     修改描述：整理接口
 ----------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 
 namespace Senparc.Weixin
@@ -53,6 +57,53 @@ namespace Senparc.Weixin
                 //    WeixinTrace.Close();
                 //}
             }
+        }
+
+        private static bool? _retryIfFaild = null;
+        public static bool? RetryIfFaild
+        {
+            get
+            {
+                if (!_retryIfFaild.HasValue)
+                {
+                    _retryIfFaild = GetConfig<bool>("Senparc.Weixin:RetryIfFaild");
+                }
+                return _retryIfFaild;
+            }
+        }
+
+        public static T? GetConfig<T>(string name) where T : struct
+        {
+            T? result = null;
+            string config = GetConfig(name);
+            if (config != null)
+            {
+                MethodInfo m = typeof(T).GetMethod("Parse", new Type[] { typeof(string) });
+
+                if (m != null)
+                {
+                    result =
+                        (T) m.Invoke(null, new object[] { config });
+                }
+                else
+                {
+                    result =
+                        (T)
+                            Convert.ChangeType(config, typeof (T),
+                                CultureInfo.InvariantCulture);
+                }
+            }
+            return result;
+        }
+
+        public static string GetConfig(string name)
+        {
+            string result = null;
+            if (System.Configuration.ConfigurationManager.AppSettings.AllKeys.Contains(name))
+            {
+                result = System.Configuration.ConfigurationManager.AppSettings[name];
+            }
+            return result;
         }
     }
 }

@@ -11335,7 +11335,7 @@
             针对AccessToken无效或过期的自动处理类
             </summary>
         </member>
-        <member name="M:Senparc.Weixin.MP.ApiHandlerWapper.TryCommonApi``1(System.Func{System.String,``0},System.String,System.Boolean)">
+        <member name="M:Senparc.Weixin.MP.ApiHandlerWapper.TryCommonApi``1(System.Func{System.String,``0},System.String,System.Nullable{System.Boolean})">
             <summary>
             使用AccessToken进行操作时，如果遇到AccessToken错误的情况，重新获取AccessToken一次，并重试。
             使用此方法之前必须使用AccessTokenContainer.Register(_appId, _appSecret);或JsApiTicketContainer.Register(_appId, _appSecret);方法对账号信息进行过注册，否则会出错。

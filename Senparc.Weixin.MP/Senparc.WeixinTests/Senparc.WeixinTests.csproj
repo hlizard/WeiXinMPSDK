@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Cache\CacheStrategyFactoryTests.cs" />
+    <Compile Include="ConfigTests.cs" />
     <Compile Include="Containers\BaseContainerTests.cs" />
     <Compile Include="Helpers\SerializerHelperTests.cs" />
     <Compile Include="MessageQueue\SenparcMessageQueueTest.cs" />
@@ -71,6 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Utilities\HttpUtility\Upload.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

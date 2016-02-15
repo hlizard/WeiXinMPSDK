@@ -36,8 +36,12 @@ namespace Senparc.Weixin.MP
         /// <param name="accessTokenOrAppId">AccessToken或AppId。如果为null，则自动取已经注册的第一个appId/appSecret来信息获取AccessToken。</param>
         /// <param name="retryIfFaild">请保留默认值true，不用输入。</param>
         /// <returns></returns>
-        public static T TryCommonApi<T>(Func<string, T> fun, string accessTokenOrAppId = null, bool retryIfFaild = true) where T : WxJsonResult
+        public static T TryCommonApi<T>(Func<string, T> fun, string accessTokenOrAppId = null, bool? retryIfFaild = null) where T : WxJsonResult
         {
+            if (!retryIfFaild.HasValue)
+            {
+                retryIfFaild = Config.RetryIfFaild.HasValue ? Config.RetryIfFaild.Value : false;
+            }
             string appId = null;
             string accessToken = null;
 
@@ -78,7 +82,7 @@ namespace Senparc.Weixin.MP
             }
             catch (ErrorJsonResultException ex)
             {
-                if (retryIfFaild
+                if (retryIfFaild.Value
                     && appId != null
                     && ex.JsonResult.errcode == ReturnCode.获取access_token时AppSecret错误或者access_token无效)
                 {
