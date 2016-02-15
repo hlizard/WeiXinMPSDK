@@ -66,44 +66,10 @@ namespace Senparc.Weixin
             {
                 if (!_retryIfFaild.HasValue)
                 {
-                    _retryIfFaild = GetConfig<bool>("Senparc.Weixin:RetryIfFaild");
+                    _retryIfFaild = DLib.DConfig.GetConfig<bool>("Senparc.Weixin:RetryIfFaild");
                 }
                 return _retryIfFaild;
             }
-        }
-
-        public static T? GetConfig<T>(string name) where T : struct
-        {
-            T? result = null;
-            string config = GetConfig(name);
-            if (config != null)
-            {
-                MethodInfo m = typeof(T).GetMethod("Parse", new Type[] { typeof(string) });
-
-                if (m != null)
-                {
-                    result =
-                        (T) m.Invoke(null, new object[] { config });
-                }
-                else
-                {
-                    result =
-                        (T)
-                            Convert.ChangeType(config, typeof (T),
-                                CultureInfo.InvariantCulture);
-                }
-            }
-            return result;
-        }
-
-        public static string GetConfig(string name)
-        {
-            string result = null;
-            if (System.Configuration.ConfigurationManager.AppSettings.AllKeys.Contains(name))
-            {
-                result = System.Configuration.ConfigurationManager.AppSettings[name];
-            }
-            return result;
         }
     }
 }
