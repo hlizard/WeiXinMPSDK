@@ -28,7 +28,7 @@ namespace Senparc.Weixin.MP
     public static class ApiHandlerWapper
     {
         /// <summary>
-        /// 使用AccessToken进行操作时，如果遇到AccessToken错误的情况，重新获取AccessToken一次，并重试。
+        /// 使用AccessToken进行操作时，若已在应用程序配置文件appSettings节中将"Senparc.Weixin:RetryIfFaild"设置为"true"，则默认情况下如果遇到AccessToken错误的情况，重新获取AccessToken一次，并重试。
         /// 使用此方法之前必须使用AccessTokenContainer.Register(_appId, _appSecret);或JsApiTicketContainer.Register(_appId, _appSecret);方法对账号信息进行过注册，否则会出错。
         /// </summary>
         /// <typeparam name="T"></typeparam>
